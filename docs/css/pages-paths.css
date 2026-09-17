@@ -1,0 +1,4 @@
+/* Use paths relative to this stylesheet so the invitation works at /repository-name/. */
+.hero{background-image:linear-gradient(rgba(30,17,16,.45),rgba(30,17,16,.65)),url('../images/hero.svg')}
+.location{background-image:linear-gradient(rgba(52,25,22,.7),rgba(52,25,22,.8)),url('../images/locationVenue.jpg')}
+.opening-bg{background-image:url('../images/4.jpeg')}

@@ -1,0 +1,282 @@
+.opening { isolation: isolate; }
+.opening-bg {
+  position: absolute; inset: 0;
+  background-image: url('/images/4.jpeg');
+  background-size: cover;
+  background-position: 50% 28%;
+  filter: grayscale(.15) sepia(.12) contrast(1.02);
+  transform: scale(1.06);
+  animation: bgdrift 22s ease-in-out infinite alternate;
+  z-index: -3;
+}
+.opening-bg::after {
+  content: "";
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(120% 90% at 50% 35%, rgba(20,12,10,.35) 0%, rgba(16,10,9,.86) 72%, rgba(10,7,6,.95) 100%),
+    linear-gradient(180deg, rgba(16,10,9,.55) 0%, rgba(16,10,9,.25) 30%, rgba(16,10,9,.75) 100%);
+}
+@keyframes bgdrift {
+  0%   { transform: scale(1.06) translate(0,0); }
+  100% { transform: scale(1.12) translate(-1.2%,-1%); }
+}
+
+.floaters { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.floater {
+  position: absolute;
+  width: clamp(70px, 9vw, 118px);
+  aspect-ratio: 4/5;
+  padding: 8px 8px 20px;
+  background: #f3ece2;
+  box-shadow: 0 18px 40px rgba(0,0,0,.45);
+  border-radius: 2px;
+  opacity: 0;
+  animation: floaterIn 1.4s ease forwards, orbit var(--dur,26s) linear infinite;
+  animation-delay: var(--in-delay,0s), var(--in-delay,0s);
+}
+.floater img { width: 100%; height: 100%; object-fit: cover; display: block; filter: sepia(.15) contrast(1.02); }
+.floater.f1 { --dur:30s; --in-delay:.4s; top:14%;  left:9%;   --r1:-8deg;  --r2:6deg; }
+.floater.f2 { --dur:24s; --in-delay:.9s; top:18%;  right:8%;  --r1:9deg;   --r2:-7deg; }
+.floater.f3 { --dur:34s; --in-delay:1.4s; bottom:12%; left:12%;  --r1:-10deg; --r2:8deg; }
+.floater.f4 { --dur:28s; --in-delay:1.9s; bottom:10%; right:10%; --r1:7deg;   --r2:-9deg; }
+
+@keyframes floaterIn {
+  from { opacity: 0; transform: translateY(16px) rotate(var(--r1)); }
+  to   { opacity: .85; transform: translateY(0) rotate(var(--r1)); }
+}
+@keyframes orbit {
+  0%   { transform: translate(0,0) rotate(var(--r1)); }
+  50%  { transform: translate(10px,-14px) rotate(var(--r2)); }
+  100% { transform: translate(0,0) rotate(var(--r1)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .floater, .opening-bg { animation: none !important; opacity: .85; }
+}
+@media (max-width: 699px) {
+  .floater {
+    display: block;
+    width: clamp(46px, 16vw, 68px);
+    padding: 5px 5px 12px;
+    opacity: .72;
+  }
+  .floater.f1 { top: 7%; left: 5%; }
+  .floater.f2 { top: 8%; right: 5%; }
+  .floater.f3 { bottom: 8%; left: 5%; }
+  .floater.f4 { bottom: 8%; right: 5%; }
+}
+
+.opening-transition {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .22s ease, visibility .22s ease;
+}
+.opening.is-revealing .opening-transition { opacity: 1; visibility: visible; }
+.opening.is-revealing .opening-content,
+.opening.is-revealing .sparkles,
+.opening.is-revealing .floaters { opacity: 0; transition: opacity .45s ease; }
+.opening-curtain {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 51%;
+  background: radial-gradient(circle at 50% 42%, #50332c 0, #241917 35%, #100e0e 100%);
+  box-shadow: inset 0 0 90px rgba(0,0,0,.72), 0 0 38px rgba(216,184,132,.2);
+  transition: transform 1.7s cubic-bezier(.72,0,.22,1) .95s;
+  will-change: transform;
+}
+.opening-curtain::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, transparent, rgba(216,184,132,.8), transparent);
+  box-shadow: 0 0 18px rgba(216,184,132,.7);
+}
+.opening-curtain-left { left: 0; transform-origin: left center; }
+.opening-curtain-left::after { right: 0; }
+.opening-curtain-right { right: 0; transform-origin: right center; }
+.opening-curtain-right::after { left: 0; }
+.opening.is-revealing .opening-curtain-left { transform: translateX(-103%); }
+.opening.is-revealing .opening-curtain-right { transform: translateX(103%); }
+.opening-light-sweep {
+  position: absolute;
+  top: -20%;
+  bottom: -20%;
+  left: -35%;
+  width: 20%;
+  opacity: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,231,177,.12), rgba(216,184,132,.62), rgba(255,231,177,.12), transparent);
+  filter: blur(8px);
+  transform: skewX(-18deg);
+}
+.opening.is-revealing .opening-light-sweep { animation: openingLightSweep 1.2s ease-in-out .55s both; }
+.opening-seal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: clamp(142px, 23vw, 218px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(216,184,132,.9);
+  border-radius: 50%;
+  color: #f5eee6;
+  background: radial-gradient(circle, rgba(78,50,43,.88), rgba(20,14,12,.94) 70%);
+  box-shadow: 0 0 0 7px rgba(216,184,132,.08), 0 0 45px rgba(216,184,132,.38), inset 0 0 38px rgba(0,0,0,.75);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(.76);
+}
+.opening.is-revealing .opening-seal { animation: openingSeal 1.05s cubic-bezier(.2,.82,.25,1) .12s both, openingSealFade .42s ease 1.08s both; }
+.opening-seal::before,
+.opening-seal::after { content: ""; position: absolute; border: 1px solid rgba(216,184,132,.28); border-radius: 50%; }
+.opening-seal::before { inset: 9px; }
+.opening-seal::after { inset: 16px; border-style: dashed; }
+.opening-seal-monogram { position: relative; width: 66%; height: 49%; display: grid; place-items: center; }
+.opening-seal-initial { position: absolute; font: 500 clamp(4.5rem, 10vw, 7.7rem)/.7 var(--display); text-shadow: 0 5px 14px rgba(0,0,0,.48); }
+.opening-seal-initial-solid { color: #f5eee6; transform: translateX(-.2em); }
+.opening-seal-initial-outline { color: transparent; -webkit-text-stroke: 1px #d8b884; transform: translateX(.2em); }
+.opening-seal-rule { position: absolute; bottom: 28%; width: 38%; height: 1px; background: linear-gradient(90deg, transparent, #d8b884, transparent); }
+.opening-seal small { position: absolute; bottom: 18%; font: 500 .48rem var(--sans); letter-spacing: .19em; text-transform: uppercase; color: #e8cfa9; }
+.opening-seal-orbit { position: absolute; color: #d8b884; font-size: .65rem; }
+.opening-seal-orbit-a { top: 20%; left: 22%; }
+.opening-seal-orbit-b { top: 20%; right: 22%; }
+.opening-name-reveal {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(.45rem, 2vw, 1.4rem);
+  padding: 1.25rem;
+  color: #f5eee6;
+  text-align: center;
+  opacity: 0;
+  transform: scale(.96);
+}
+.opening-name-reveal span { max-width: 40%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; word-break: keep-all; font: 500 clamp(1.8rem, 6vw, 4.8rem)/.9 var(--serif); letter-spacing: .045em; text-shadow: 0 2px 14px rgba(216,184,132,.42); filter: blur(10px); opacity: 0; }
+.opening-name-reveal i { flex: 0 0 auto; color: #d8b884; font: italic clamp(2rem, 5vw, 3.8rem)/1 var(--serif); opacity: 0; transform: scale(.7); text-shadow: 0 0 18px rgba(216,184,132,.7); }
+.opening.is-revealing .opening-name-reveal { animation: openingNamesContainer .35s ease 1.25s both; }
+.opening.is-revealing .opening-name-reveal-groom { animation: openingNameFromLeft .9s cubic-bezier(.2,.78,.24,1) 1.4s both; }
+.opening.is-revealing .opening-name-reveal-bride { animation: openingNameFromRight .9s cubic-bezier(.2,.78,.24,1) 1.55s both; }
+.opening.is-revealing .opening-name-reveal i { animation: openingAmpersand .65s ease 1.72s both; }
+@keyframes openingSeal { to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
+@keyframes openingSealFade { to { opacity: 0; transform: translate(-50%, -50%) scale(.9); } }
+@keyframes openingLightSweep { 0% { opacity: 0; transform: translateX(0) skewX(-18deg); } 18% { opacity: 1; } 100% { opacity: 0; transform: translateX(700%) skewX(-18deg); } }
+@keyframes openingNamesContainer { to { opacity: 1; transform: scale(1); } }
+@keyframes openingNameFromLeft { from { opacity: 0; filter: blur(12px); transform: translateX(-8vw); } 60% { opacity: 1; } to { opacity: 1; filter: blur(0); transform: translateX(0); } }
+@keyframes openingNameFromRight { from { opacity: 0; filter: blur(12px); transform: translateX(8vw); } 60% { opacity: 1; } to { opacity: 1; filter: blur(0); transform: translateX(0); } }
+@keyframes openingAmpersand { to { opacity: 1; transform: scale(1); } }
+@media (max-width: 699px) {
+  .opening-seal { width: clamp(128px, 40vw, 162px); }
+  .opening-name-reveal { align-items: center; gap: .35rem; padding: 1rem; }
+  .opening-name-reveal span { max-width: 42%; font-size: clamp(1.2rem, 7vw, 2.25rem); letter-spacing: .02em; }
+  .opening-name-reveal i { font-size: 2rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .opening-transition,
+  .opening-curtain,
+  .opening-seal,
+  .opening-name-reveal,
+  .opening-name-reveal span,
+  .opening-name-reveal i { animation: none !important; transition: none !important; }
+}
+
+/* Calendar keeps its existing dynamic date source while adopting a keepsake-card layout. */
+.calendar-countdown {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(4rem, 8vw, 7rem) max(1rem, 5vw);
+  background:
+    radial-gradient(circle at 12% 10%, rgba(216,184,132,.14), transparent 19rem),
+    radial-gradient(circle at 88% 86%, rgba(76,30,35,.24), transparent 23rem),
+    #241512;
+}
+.calendar-countdown::before {
+  content: "";
+  position: absolute;
+  inset: 1rem;
+  border: 1px solid rgba(216,184,132,.22);
+  pointer-events: none;
+}
+.calendar-scene { position: relative; width: min(100%, 940px); margin: auto; padding-top: clamp(1.8rem, 5vw, 3.5rem); }
+.calendar-card {
+  display: grid;
+  grid-template-columns: clamp(118px, 22vw, 190px) minmax(0, 1fr);
+  max-width: none;
+  min-height: clamp(470px, 59vw, 600px);
+  padding: 0;
+  overflow: hidden;
+  text-align: left;
+  color: #3c1c1b;
+  border: 1px solid rgba(216,184,132,.68);
+  background: #f2e7d8;
+  box-shadow: 0 23px 55px rgba(0,0,0,.35), 0 0 0 8px rgba(242,231,216,.07);
+}
+.calendar-clip {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: clamp(1.2rem, 5vw, 4.2rem);
+  display: flex;
+  gap: clamp(.7rem, 2vw, 1.2rem);
+  align-items: flex-start;
+  padding: .55rem .9rem .45rem;
+  border: 1px solid rgba(216,184,132,.65);
+  border-radius: 0 0 8px 8px;
+  background: linear-gradient(135deg, #6a5149, #241512 58%, #8b725c);
+  box-shadow: 0 7px 16px rgba(0,0,0,.4);
+}
+.calendar-clip i { display: block; width: 8px; height: 26px; border: 2px solid #e8cfa9; border-radius: 99px; background: rgba(22,12,10,.45); }
+.calendar-photo-strip { display: grid; grid-template-rows: repeat(3, 1fr); gap: clamp(.55rem, 1.2vw, .8rem); margin: 0; padding: clamp(2.4rem, 4vw, 3.4rem) clamp(.6rem, 1.4vw, 1rem) clamp(.8rem, 1.4vw, 1rem); background: #e7d8c6; border-right: 1px solid rgba(109,31,38,.33); }
+.calendar-photo-strip figure { min-height: 0; margin: 0; overflow: hidden; border: 1px solid rgba(76,30,35,.35); background: #b99882; box-shadow: 0 5px 10px rgba(76,30,35,.15); }
+.calendar-photo-strip img { display: block; width: 100%; height: 100%; object-fit: cover; filter: sepia(.2) contrast(.96) saturate(.82); }
+.calendar-sheet { position: relative; display: flex; flex-direction: column; min-width: 0; padding: clamp(2.7rem, 5vw, 4rem) clamp(1rem, 4vw, 3.1rem) clamp(1.4rem, 3vw, 2.3rem); background-color: #f2e7d8; background-image: radial-gradient(rgba(109,31,38,.09) .6px, transparent .6px); background-size: 9px 9px; }
+.calendar-sheet-heading { display: flex; justify-content: space-between; gap: 1rem; align-items: flex-start; }
+.calendar-kicker { display: block; color: #6d1f26; font: 500 .58rem var(--sans); letter-spacing: .23em; text-transform: uppercase; }
+.calendar-live { min-height: 1.5rem; margin: .35rem 0 0; color: #6d1f26; font: italic clamp(.95rem, 2vw, 1.25rem) 'Cormorant Garamond', serif; }
+.calendar-heart { color: #6d1f26; font: 400 clamp(1.5rem, 3vw, 2.3rem)/.8 var(--serif); }
+.calendar-rule { width: 100%; margin: clamp(.8rem, 2vw, 1.3rem) 0 clamp(.65rem, 1.8vw, 1.1rem); background: linear-gradient(90deg, transparent, #c9a45c 12%, #c9a45c 88%, transparent); }
+.calendar-card h2 { margin: 0 0 clamp(.7rem, 1.8vw, 1.15rem); color: #6d1f26; font: italic 500 clamp(2rem, 5vw, 3.4rem)/.9 'Cormorant Garamond', serif; letter-spacing: .02em; }
+.calendar-weekdays,.calendar-grid { gap: 0; }
+.calendar-weekdays { margin: 0; border: 1px solid rgba(109,31,38,.32); border-bottom: 0; color: #6d1f26; font: 500 clamp(.45rem, 1vw, .63rem) var(--sans); letter-spacing: .1em; }
+.calendar-weekdays span { display: grid; place-items: center; min-height: clamp(25px, 3vw, 34px); border-right: 1px solid rgba(109,31,38,.25); }
+.calendar-weekdays span:last-child { border-right: 0; }
+.calendar-grid { border-left: 1px solid rgba(109,31,38,.32); border-top: 1px solid rgba(109,31,38,.32); }
+.calendar-grid span { position: relative; min-width: 0; aspect-ratio: 1/.82; color: #4a302a; border-right: 1px solid rgba(109,31,38,.32); border-bottom: 1px solid rgba(109,31,38,.32); font: 500 clamp(.6rem, 1.3vw, .98rem) 'Cormorant Garamond', serif; }
+.calendar-grid .wedding-day { z-index: 0; border-radius: 0; color: #f2e7d8; background: #6d1f26; box-shadow: inset 0 0 0 2px #c9a45c; }
+.calendar-grid .wedding-day::after { content: "Our day"; position: absolute; bottom: 9%; font: 500 clamp(.28rem, .65vw, .45rem) var(--sans); letter-spacing: .04em; text-transform: uppercase; color: #e8cfa9; }
+.calendar-forever { margin: auto 0 0; padding-top: clamp(.8rem, 2vw, 1.35rem); color: #6d1f26; text-align: center; font: italic clamp(1rem, 2vw, 1.35rem) 'Cormorant Garamond', serif; }
+.calendar-spark { position: absolute; z-index: 3; color: #d8b884; text-shadow: 0 0 15px rgba(216,184,132,.3); pointer-events: none; }
+.calendar-spark-a { top: 1rem; right: 8%; font-size: clamp(1.8rem, 4vw, 3.5rem); }
+.calendar-spark-b { top: 5rem; right: 2%; font-size: clamp(1.1rem, 2vw, 1.8rem); }
+.calendar-spark-c { bottom: 2rem; left: 4%; font-size: clamp(1.2rem, 2vw, 2rem); }
+.calendar-botanical { position: absolute; z-index: 2; bottom: clamp(-2rem, -3vw, -1rem); left: clamp(1rem, 8vw, 5.5rem); color: #d8b884; font-size: clamp(4.5rem, 10vw, 8.5rem); line-height: 1; transform: rotate(-17deg); text-shadow: 0 10px 20px rgba(0,0,0,.3); }
+@media (max-width: 699px) {
+  .calendar-countdown { padding-inline: .85rem; }
+  .calendar-countdown::before { inset: .55rem; }
+  .calendar-scene { padding-top: 2.7rem; }
+  .calendar-card { grid-template-columns: 86px minmax(0, 1fr); min-height: 445px; }
+  .calendar-clip { left: .8rem; gap: .5rem; padding: .4rem .65rem .35rem; }
+  .calendar-clip i { width: 6px; height: 20px; }
+  .calendar-photo-strip { gap: .45rem; padding: 2.15rem .45rem .55rem; }
+  .calendar-sheet { padding: 2.2rem .65rem 1rem; }
+  .calendar-kicker { font-size: .43rem; letter-spacing: .14em; }
+  .calendar-live { font-size: .82rem; }
+  .calendar-card h2 { font-size: clamp(1.55rem, 9vw, 2.15rem); }
+  .calendar-weekdays { font-size: .4rem; letter-spacing: .03em; }
+  .calendar-weekdays span { min-height: 22px; }
+  .calendar-grid span { aspect-ratio: 1/.94; font-size: clamp(.58rem, 3.5vw, .78rem); }
+  .calendar-grid .wedding-day::after { display: none; }
+  .calendar-heart { font-size: 1.35rem; }
+  .calendar-forever { font-size: .9rem; }
+  .calendar-spark-a { top: .3rem; right: 4%; }
+  .calendar-spark-b { top: 2.8rem; right: 0; }
+  .calendar-spark-c { bottom: 0; }
+  .calendar-botanical { bottom: -1.3rem; left: .3rem; font-size: 4.4rem; }
+}

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#17110f" />
+    <meta name="description" content="@ViewData["Description"]" />
+    <meta property="og:title" content="@ViewData["PageTitle"]" />
+    <meta property="og:description" content="@ViewData["Description"]" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="@ViewData["HeroImage"]" />
+    <title>@ViewData["PageTitle"]</title>
+    <link rel="icon" href="~/images/gallery-1.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Cormorant+Infant:wght@500;600&family=DM+Sans:wght@400;500&family=Italiana&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/opening-photo.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/opening-curtain.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/gallery-album.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/closing-invitation.css" asp-append-version="true" />
+</head>
+<body>
+    @RenderBody()
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</body>
+</html>
