@@ -42,8 +42,19 @@
 </div></section>
  <section id="story" class="story section"><div class="eyebrow">A love story</div><h2>THE LITTLE MOMENTS<br />THAT LED US HERE</h2><div class="timeline">@{ var storyImages = new[] { "/images/story1.jpeg", "/images/story2.jpeg", "/images/story3.jpeg", "/images/story4.jpeg" }; } @for (var i = 0; i < Model.StoryItems.Count; i++) { var moment = Model.StoryItems[i]; var imagePath = i < storyImages.Length ? storyImages[i] : string.Empty; <article class="moment"><div class="story-moment-layout"><figure class="story-photo"><img src="@imagePath" loading="lazy" alt="@moment.Title — @Model.GroomName and @Model.BrideName" /></figure><div class="story-moment-copy"><span class="moment-number">0@(i + 1)</span><h3>@moment.Title</h3><p>@moment.Description</p></div></div></article> }</div></section>
  <section id="details" class="details section"><div class="eyebrow">Save the date</div><h2>THE CELEBRATION</h2><div class="detail-grid"><article class="detail"><h3>Ceremony</h3><p>@Model.WeddingDate.ToString("dd MMMM yyyy")<br />@Model.CeremonyTime</p></article><article class="detail"><h3>Reception</h3><p>Let the celebration begin<br />@Model.ReceptionTime</p></article><article class="detail"><h3>Venue</h3><p>@Model.VenueName</p></article><article class="detail"><h3>Address</h3><p>@Model.VenueAddress</p></article></div></section>
- <section id="location" class="location section reference-location"><div class="eyebrow">Where our forever begins</div><h2>@Model.VenueName</h2>
-    <p>@Model.VenueAddress</p><div class="location-map"><img src="/images/locationVenue.jpg" alt="Decorative venue map preview" loading="lazy" /><span>OUR CELEBRATION VENUE</span></div><a class="location-button" href="@Model.GoogleMapsUrl" target="_blank" rel="noopener">OPEN IN MAPS <span>↗</span></a></section>
+
+    <section id="location" class="location section reference-location">
+        <div class="eyebrow">Where our forever begins</div>
+        <h2>@Model.VenueName</h2>
+        <p>@Model.VenueAddress</p>
+        <div class="location-map">
+            <img src="/images/locationVenue.jpg" alt="@Model.VenueName venue entrance" loading="lazy" />
+            <div class="venue-label" aria-label="Our celebration venue"><i aria-hidden="true"></i><strong>Our celebration venue</strong><i aria-hidden="true"></i></div>
+        </div>
+        <a class="location-button" href="@Model.GoogleMapsUrl" target="_blank" rel="noopener">OPEN IN MAPS <span aria-hidden="true">↗</span></a>
+    </section>
+
+
  @*<section id="gallery" class="gallery gallery-album section"><div class="eyebrow">A glimpse of us</div><h2>OUR MOMENTS</h2>
     <div class="gallery-album-row gallery-album-row-top"><div class="gallery-album-frame"><div class="gallery-grid" aria-label="Wedding photo album, first row">@for(var i = 0; i < Model.GalleryImages.Count; i += 2) { <button class="gallery-item" type="button" aria-label="View wedding moment @(i + 1)"><img src="@Model.GalleryImages[i]" loading="lazy" alt="Wedding moment placeholder @(i + 1)" /><span class="gallery-caption" aria-hidden="true">Memory 0@(i + 1)</span></button> }</div></div></div><div class="gallery-album-row gallery-album-row-bottom"><div class="gallery-album-frame"><div class="gallery-grid" aria-label="Wedding photo album, second row">@for(var i = 1; i < Model.GalleryImages.Count; i += 2) { <button class="gallery-item" type="button" aria-label="View wedding moment @(i + 1)"><img src="@Model.GalleryImages[i]" loading="lazy" alt="Wedding moment placeholder @(i + 1)" /><span class="gallery-caption" aria-hidden="true">Memory 0@(i + 1)</span></button> }</div></div></div></section>*@
  

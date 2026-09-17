@@ -1,6 +1,7 @@
 .opening { overflow: hidden; }
 .opening-curtain { position: absolute; top: 0; bottom: 0; z-index: 4; width: 50%; overflow: hidden; visibility: hidden; opacity: 0; background: #241917; transition: transform 2.4s cubic-bezier(.65,0,.2,1), opacity .12s ease, visibility 0s linear .12s; will-change: transform; }
 .opening-curtain img { display: block; width: 100%; height: 100%; object-fit: cover; filter: contrast(1.04) brightness(.78) saturate(.92); }
+.curtain-left img { object-position: 78% center; }
 .opening-curtain::after { content: ""; position: absolute; inset: 0; width: auto; background: linear-gradient(90deg,rgba(10,7,6,.45),rgba(16,10,9,.1) 52%,rgba(10,7,6,.45)); box-shadow: inset 0 0 48px rgba(0,0,0,.36); }
 .curtain-left { left: 0; }.curtain-right { right: 0; }
 .curtain-left::before,.curtain-right::before { content: ""; position: absolute; z-index: 1; top: 0; bottom: 0; width: 1px; background: linear-gradient(180deg,transparent,rgba(255,247,229,.8),transparent); box-shadow: 0 0 14px rgba(255,247,229,.55); }
